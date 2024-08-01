@@ -1,39 +1,166 @@
-import { View, Text, ActivityIndicator } from 'react-native'
-import { SafeAreaView, StyleSheet} from 'react-native';
-import {useCameraPermission,useCameraDevice,Camera} from 'react-native-vision-camera';
-import React from 'react'
-import { useEffect } from 'react';
+// App.js file
 
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
+import {
+    Button,
+    StyleSheet,
+    Text,
+    Image,
+    SafeAreaView,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
 
-const CameraScreen = () => {
-  const { hasPermission, requestPermission } = useCameraPermission()
-  const device =  useCameraDevice('back'); {/* back means we use camera from the back */}
+export default function App() {
 
+    // State to hold the selected image
+    const [image, setImage] = useState(null); 
+    
+    // State to hold extracted text
+    const [extractedText, setExtractedText] = 
+        useState(""); 
 
-  useEffect(() =>{
-      if(!hasPermission){
-        requestPermission();
+    // Function to pick an image from the 
+    // device's gallery
+    const pickImageGallery = async () => {
+        let result =
+            await ImagePicker.launchImageLibraryAsync({
+                mediaTypes:
+                    ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                base64: true,
+                allowsMultipleSelection: false,
+            });
+        if (!result.canceled) {
+        
+            // Perform OCR on the selected image
+            performOCR(result.assets[0]); 
+            
+            // Set the selected image in state
+            setImage(result.assets[0].uri); 
+        }
+    };
 
-      }
-  },[hasPermission])
-  if(!hasPermission){
-    return <ActivityIndicator/>
-  }
+    // Function to capture an image using the 
+    // device's camera
+    const pickImageCamera = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            base64: true,
+            allowsMultipleSelection: false,
+        });
+        if (!result.canceled) {
+        
+               // Perform OCR on the captured image
+            // Set the captured image in state
+            performOCR(result.assets[0]); 
+            setImage(result.assets[0].uri);
+        }
+    };
 
-  console.log(hasPermission);
+    // Function to perform OCR on an image 
+    // and extract text
+    const performOCR = (file) => {
+        let myHeaders = new Headers();
+        myHeaders.append(
+            "apikey",
+            
+            // ADDD YOUR API KEY HERE 
+            "FEmvQr5uj99ZUvk3essuYb6P5lLLBS20"  
+        );
+        myHeaders.append(
+            "Content-Type",
+            "multipart/form-data"
+        );
 
-  if(!device){
-    return <Text>Camera device not found</Text>
-  }
-  return (
-    <SafeAreaView style={{flex:1}}>
-          <View style={{flex:1}}>
-             <Camera style={StyleSheet.absoluteFill} device={device} isActive={true}></Camera>
-        </View>
-    </SafeAreaView>
-   
-  )
-  
+        let raw = file;
+        let requestOptions = {
+            method: "POST",
+            redirect: "follow",
+            headers: myHeaders,
+            body: raw,
+        };
+
+        // Send a POST request to the OCR API
+        fetch(
+            "https://api.apilayer.com/image_to_text/upload",
+            requestOptions
+        )
+            .then((response) => response.json())
+            .then((result) => {
+            
+                // Set the extracted text in state
+                setExtractedText(result["all_text"]); 
+            })
+            .catch((error) => console.log("error", error));
+    };
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <Text style={styles.heading}>
+                Image to text
+            </Text>
+            <Text style={styles.heading2}>
+                this app takes image and extracts text
+            </Text>
+            <Button
+                title="Pick an image from gallery"
+                onPress={pickImageGallery}
+            />
+            <Button
+                title="Pick an image from camera"
+                onPress={pickImageCamera}
+            />
+            {image && (
+                <Image
+                    source={{ uri: image }}
+                    style={{
+                        width: 400,
+                        height: 300,
+                        objectFit: "contain",
+                    }}
+                />
+            )}
+
+            <Text style={styles.text1}>
+                Extracted text:
+            </Text>
+            <Text style={styles.text1}>
+                {extractedText}
+            </Text>
+            <StatusBar style="auto" />
+        </SafeAreaView>
+    );
 }
 
-export default CameraScreen
+const styles = StyleSheet.create({
+    container: {
+        display: "flex",
+        alignContent: "center",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        backgroundColor: "#fff",
+        height: "100%",
+    },
+    heading: {
+        fontSize: 28,
+        fontWeight: "bold",
+        marginBottom: 10,
+        color: "blue",
+        textAlign: "center",
+    },
+    heading2: {
+        fontSize: 22,
+        fontWeight: "bold",
+        marginBottom: 10,
+        color: "black",
+        textAlign: "center",
+    },
+    text1: {
+        fontSize: 16,
+        marginBottom: 10,
+        color: "black",
+        fontWeight: "bold",
+    },
+});
