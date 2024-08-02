@@ -5,10 +5,12 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import CameraScreen from '../src/components/CameraScreen';
-
 export default function HomeScreen() {
   return (
-   <CameraScreen></CameraScreen>
+    <>
+     <CameraScreen></CameraScreen>
+    </>
+  
   );
 }
 

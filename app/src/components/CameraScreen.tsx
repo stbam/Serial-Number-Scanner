@@ -1,14 +1,17 @@
 // App.js file
 
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Button,
     StyleSheet,
     Text,
     Image,
     SafeAreaView,
+    View,
+    TouchableOpacity
 } from "react-native";
+import Form from "./Form";
 import * as ImagePicker from "expo-image-picker";
 
 export default function App() {
@@ -40,6 +43,7 @@ export default function App() {
             setImage(result.assets[0].uri); 
         }
     };
+   
 
     // Function to capture an image using the 
     // device's camera
@@ -95,6 +99,15 @@ export default function App() {
             })
             .catch((error) => console.log("error", error));
     };
+   
+    
+    useEffect(()=>{
+       
+        return()=>{
+            console.log("component unmounted")
+        }
+    },[image]);
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -104,14 +117,18 @@ export default function App() {
             <Text style={styles.heading2}>
                 this app takes image and extracts text
             </Text>
-            <Button
-                title="Pick an image from gallery"
-                onPress={pickImageGallery}
-            />
-            <Button
-                title="Pick an image from camera"
-                onPress={pickImageCamera}
-            />
+            <View style={styles.buttonLayout}>
+                <View >
+                    <Button
+                        title="Pick an image from gallery"
+                        onPress={pickImageGallery}/>
+                </View>      
+                <Button
+                    title="Pick an image from camera"
+                    onPress={pickImageCamera}
+                />
+            </View>
+           
             {image && (
                 <Image
                     source={{ uri: image }}
@@ -130,6 +147,7 @@ export default function App() {
                 {extractedText}
             </Text>
             <StatusBar style="auto" />
+            <Form/>
         </SafeAreaView>
     );
 }
@@ -163,4 +181,13 @@ const styles = StyleSheet.create({
         color: "black",
         fontWeight: "bold",
     },
+    buttonLayout:{
+        display:'flex',
+        flexDirection:'row'   
+    },
+    buttonSpecs:{
+        fontSize:8,
+        
+    }
+  
 });
