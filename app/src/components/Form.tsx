@@ -1,44 +1,77 @@
+import { Text, View, Switch, Button } from 'react-native';
+import React, { useState } from 'react';
 
-import { Text, View,TextInput, Button,Switch} from 'react-native'
-import React, { Component,useState } from 'react'
 
+const Form = ({extractedText}) => {
+  const [cameraIsEnabled, setCameraIsEnabled] = useState(true);
+  const [microphoneIsEnabled, setMicrophoneIsEnabled] = useState(true);
+  const [keyboardIsEnabled, setKeyboardIsEnabled] = useState(true);
+  const [speakerIsEnabled, setSpeakerIsEnabled] = useState(true);
+console.log(extractedText);
+  const toggleCameraSwitch = () => setCameraIsEnabled(previousState => !previousState);
+  const toggleMicrophoneSwitch = () => setMicrophoneIsEnabled(previousState => !previousState);
+  const toggleKeyboardSwitch = () => setKeyboardIsEnabled(previousState => !previousState);
+  const toggleSpeakerSwitch = () => setSpeakerIsEnabled(previousState => !previousState);
 
-const Form = () => {
-    const [cameraIsEnabled,setCameraIsEnabled]=useState(true);
-    const [isEnabled,setIsEnabled]=useState(true);
-    const [MicrophoneIsEnabled,setMicrophoneIsENabled]=useState(true);
-    const [speakerIsEnabled,setSpeakerIsENabled]=useState(true);
-    const toggleSwitch = ()=> setCameraIsEnabled(previousState=>!previousState);
-    const toggleSecondSwitch = ()=> setIsEnabled(previousState=>!previousState);
-    const toggleThirdSwitch=()=>setMicrophoneIsENabled(previousState=>!previousState);
-    const toggleFourthSwitch=()=>setSpeakerIsENabled(previousState=>!previousState)
-    console.log({speakerIsEnabled})
+  const handleSubmit = async () => {
+    const formData = {
+        serialNumber: extractedText, // Use static text for testing
+      cameraIsEnabled: cameraIsEnabled ? 'yes':'no',
+      microphoneIsEnabled:microphoneIsEnabled? 'yes':'no',
+      keyboardIsEnabled:keyboardIsEnabled? 'yes':'no',
+      speakerIsEnabled:speakerIsEnabled? 'yes:':'no'
+    };
+
+    var fetch_link = 'https://script.google.com/macros/s/AKfycbxvXJ4dR9Bd5DnLl6VY0OZ1MskhzSO2GI3DWzzhdU8WkHvDv2IFbLLSvwvQMXCx-gI2nw/exec';
+    try {
+      const response = await fetch(fetch_link, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+      console.log('Form data submitted successfully:', responseData);
+      // Handle successful response data as needed
+    } catch (error) {
+      console.error('Error submitting form data:', error);
+      // Handle error as needed
+    }
+    console.log("Extracted Text in App:", extractedText);
+
+  };
+
   return (
     <View>
-        <Text>Camera is working? {cameraIsEnabled? 'Yes':'No'}</Text>
-        <Switch 
-        onValueChange={toggleSwitch}
+      <Text>Camera is working? {cameraIsEnabled ? 'Yes' : 'No'}</Text>
+      <Switch
+        onValueChange={toggleCameraSwitch}
         value={cameraIsEnabled}
-        />
-        <Text>Microphone is working? {isEnabled? 'Yes':'No'}</Text>
-        <Switch 
-        onValueChange={toggleSecondSwitch}
-        value={isEnabled}
-        />
-        
-        <Text>Keyboard is working? {MicrophoneIsEnabled? 'Yes':'No'}</Text>
-        <Switch 
-        onValueChange={toggleThirdSwitch}
-        value={MicrophoneIsEnabled}
-        />
-        <Text>Speaker is working?{speakerIsEnabled? 'Yes':'No'}</Text>
-        <Switch 
-        onValueChange={toggleFourthSwitch}
+      />
+      <Text>Microphone is working? {microphoneIsEnabled ? 'Yes' : 'No'}</Text>
+      <Switch
+        onValueChange={toggleMicrophoneSwitch}
+        value={microphoneIsEnabled}
+      />
+      <Text>Keyboard is working? {keyboardIsEnabled ? 'Yes' : 'No'}</Text>
+      <Switch
+        onValueChange={toggleKeyboardSwitch}
+        value={keyboardIsEnabled}
+      />
+      <Text>Speaker is working? {speakerIsEnabled ? 'Yes' : 'No'}</Text>
+      <Switch
+        onValueChange={toggleSpeakerSwitch}
         value={speakerIsEnabled}
-        />
-       <Button title='Submit'/>
-      </View>
-  )
-}
+      />
+      <Button title='Submit' onPress={handleSubmit} />
+    </View>
+  );
+};
 
 export default Form;

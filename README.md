@@ -48,3 +48,7 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+TO DO:
+The form needs to send data to google sheets and fill out the data on it
+It also should be able to use a database that you make and verify that the code scanned is in there/correct against existing database
