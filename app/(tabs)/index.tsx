@@ -5,10 +5,15 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import CameraScreen from '../src/components/CameraScreen';
+import { PaperProvider } from 'react-native-paper';
+
 export default function HomeScreen() {
   return (
     <>
-     <CameraScreen></CameraScreen>
+      <PaperProvider>
+        <CameraScreen></CameraScreen>
+      </PaperProvider>
+     
     </>
   
   );

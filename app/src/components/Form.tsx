@@ -1,6 +1,7 @@
-import { Text, View, Switch, Button } from 'react-native';
+import { Text, View, Switch, Button,StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-
+import MyComponent from './Button';
+import CustomSwitch from './Switch'
 
 const Form = ({extractedText}) => {
   const [cameraIsEnabled, setCameraIsEnabled] = useState(true);
@@ -49,6 +50,7 @@ console.log(extractedText);
 
   return (
     <View>
+
       <Text>Camera is working? {cameraIsEnabled ? 'Yes' : 'No'}</Text>
       <Switch
         onValueChange={toggleCameraSwitch}
@@ -73,5 +75,6 @@ console.log(extractedText);
     </View>
   );
 };
+
 
 export default Form;

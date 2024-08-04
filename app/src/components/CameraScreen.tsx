@@ -22,6 +22,8 @@ export default function App() {
     // State to hold extracted text
     const [extractedText, setExtractedText] = 
         useState("JLD5PQ3"); //hardcoded value that must later be replaced to look for matching value in a database.****
+        
+
 
     // Function to pick an image from the 
     // device's gallery
