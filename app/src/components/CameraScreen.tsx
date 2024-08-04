@@ -1,5 +1,5 @@
 // App.js file
-
+import axios, {isCancel, AxiosError} from 'axios';
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import {
@@ -9,12 +9,14 @@ import {
     Image,
     SafeAreaView,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    FlatList
 } from "react-native";
 import Form from "./Form";
 import * as ImagePicker from "expo-image-picker";
 
 export default function App() {
+
 
     // State to hold the selected image
     const [image, setImage] = useState(null); 
@@ -101,7 +103,7 @@ export default function App() {
             })
             .catch((error) => console.log("error", error));
     };
-   
+   const [serialNumberStore,setSerialNumber]=useState('')
     
     useEffect(()=>{
        
@@ -110,9 +112,26 @@ export default function App() {
         }
     },[image]);
 
+//this fetch serial number from the database.
+    useEffect(() => {
+        // Fetch posts from the server when the component mounts
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get('http://192.168.1.2:3000/posts'); // Update the IP address
+                console.log("Fetched posts:", response.data[1].body);
+               setSerialNumber(response.data[1].body);
+            } catch (error) {
+                console.error("Error fetching posts:", error);
+            }
+        };
+        fetchPosts();
+    }, []);
+console.log('did it work?',serialNumberStore)
 
     return (
         <SafeAreaView style={styles.container}>
+            
+       
             <Text style={styles.heading}>
                 Image to text
             </Text>
