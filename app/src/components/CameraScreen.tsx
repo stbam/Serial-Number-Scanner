@@ -23,7 +23,7 @@ export default function App() {
     
     // State to hold extracted text
     const [extractedText, setExtractedText] = 
-        useState("JLD5PQ3"); //hardcoded value that must later be replaced to look for matching value in a database.****
+        useState("AXDSPQ4"); //hardcoded value that must later be replaced to look for matching value in a database.****
         
 
 
@@ -113,7 +113,7 @@ export default function App() {
     },[image]);
 
 //this fetch serial number from the database.
-    useEffect(() => {
+{/*    useEffect(() => {
         // Fetch posts from the server when the component mounts
         const fetchPosts = async () => {
             try {
@@ -125,7 +125,7 @@ export default function App() {
             }
         };
         fetchPosts();
-    }, []);
+    }, []);*/}
 console.log('did it work?',serialNumberStore)
 
     return (
@@ -136,7 +136,7 @@ console.log('did it work?',serialNumberStore)
                 Image to text
             </Text>
             <Text style={styles.heading2}>
-                this app takes image and extracts text
+                this app takes image,extracts text/serial number and sends it to google sheets
             </Text>
             <View style={styles.buttonLayout}>
                 <View >

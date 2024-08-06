@@ -22,8 +22,8 @@ console.log(extractedText);
       keyboardIsEnabled:keyboardIsEnabled? 'yes':'no',
       speakerIsEnabled:speakerIsEnabled? 'yes:':'no'
     };
-
-    var fetch_link = 'https://script.google.com/macros/s/AKfycbxvXJ4dR9Bd5DnLl6VY0OZ1MskhzSO2GI3DWzzhdU8WkHvDv2IFbLLSvwvQMXCx-gI2nw/exec';
+//https://script.google.com/macros/s/AKfycbxvXJ4dR9Bd5DnLl6VY0OZ1MskhzSO2GI3DWzzhdU8WkHvDv2IFbLLSvwvQMXCx-gI2nw/exec
+    var fetch_link = 'https://script.google.com/macros/s/AKfycbzfd9nOm8mbCOlCzCYRtI1YSX4TjYG9brzyVyTtabymBI1XBJObfEwARRZtH_9L_Mg7MA/exec';
     try {
       const response = await fetch(fetch_link, {
         method: 'POST',
