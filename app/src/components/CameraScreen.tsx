@@ -12,20 +12,35 @@ import {
     TouchableOpacity,
     FlatList
 } from "react-native";
+import { PaperProvider } from 'react-native-paper';
+import MyButtonComponent from './Button'
 import Form from "./Form";
+import Dropdown from './Dropdown';
+import React from 'react';
 import * as ImagePicker from "expo-image-picker";
 
 export default function App() {
 
+    const [selected, setSelected] = React.useState("");
 
+  
     // State to hold the selected image
     const [image, setImage] = useState(null); 
     
-    // State to hold extracted text
+    // State to hold extractedr text
     const [extractedText, setExtractedText] = 
-        useState("AXDSPQ4"); //hardcoded value that must later be replaced to look for matching value in a database.****
+        useState("AXDSPQ4"); // AXDSPQ4 hardcoded value that must later be replaced to look for matching value in a database.****
         
+        const data = [
+            {key:'1', value:'ukl'},
+            {key:'2', value:'uk'},
+            {key:'3', value:'uka'},
+            {key:'4', value:'u38'}
+        ]
 
+        const handleDropDownSelect= (value)=>{
+            setSelected(value)
+        }
 
     // Function to pick an image from the 
     // device's gallery
@@ -127,29 +142,36 @@ export default function App() {
         fetchPosts();
     }, []);*/}
 console.log('did it work?',serialNumberStore)
+console.log('this works?',selected)
 
     return (
+    <PaperProvider>   
         <SafeAreaView style={styles.container}>
-            
-       
-            <Text style={styles.heading}>
-                Image to text
-            </Text>
             <Text style={styles.heading2}>
                 this app takes image,extracts text/serial number and sends it to google sheets
             </Text>
+            <View style={styles.abs}>
+                            <Dropdown 
+                            data={data}
+                            onSelect={handleDropDownSelect}
+                            ></Dropdown>
+                </View>
+
+
             <View style={styles.buttonLayout}>
-                <View >
+                <View>
                     <Button
                         title="Pick an image from gallery"
                         onPress={pickImageGallery}/>
-                </View>      
+                </View>  
+                    
                 <Button
                     title="Pick an image from camera"
                     onPress={pickImageCamera}
                 />
             </View>
-           
+          
+
             {image && (
                 <Image
                     source={{ uri: image }}
@@ -160,16 +182,24 @@ console.log('did it work?',serialNumberStore)
                     }}
                 />
             )}
+            
+            <View>
 
-            <Text style={styles.text1}>
-                Extracted text:
-            </Text>
-            <Text style={styles.text1}>
-                {extractedText}
-            </Text>
-            <StatusBar style="auto" />
-            <Form extractedText={extractedText}/>
+
+                <View>
+                    <Text style={styles.text1}>
+                        Extracted text:
+                    </Text>
+                    <Text style={styles.text1}>
+                        {extractedText}
+                    </Text>
+                    <StatusBar style="auto" />
+                    <Form extractedText={extractedText} selected={selected}/>
+                </View>
+            </View>
+
         </SafeAreaView>
+        </PaperProvider>
     );
 }
 
@@ -204,11 +234,17 @@ const styles = StyleSheet.create({
     },
     buttonLayout:{
         display:'flex',
-        flexDirection:'row'   
+        flexDirection:'row'
     },
     buttonSpecs:{
         fontSize:8,
         
+    },
+    abs:{
+        //position:'absolute',
+        zIndex:999,
+        top:200,
+        width:150
     }
   
 });

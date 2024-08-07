@@ -1,14 +1,17 @@
 import { Text, View, Switch, Button,StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import MyComponent from './Button';
+import MyButtonComponent from './Button';
 import CustomSwitch from './Switch'
 
-const Form = ({extractedText}) => {
+
+const Form = ({extractedText,selected}) => {
+  
   const [cameraIsEnabled, setCameraIsEnabled] = useState(true);
   const [microphoneIsEnabled, setMicrophoneIsEnabled] = useState(true);
   const [keyboardIsEnabled, setKeyboardIsEnabled] = useState(true);
   const [speakerIsEnabled, setSpeakerIsEnabled] = useState(true);
-console.log(extractedText);
+console.log('this is in the forn',selected);
+
   const toggleCameraSwitch = () => setCameraIsEnabled(previousState => !previousState);
   const toggleMicrophoneSwitch = () => setMicrophoneIsEnabled(previousState => !previousState);
   const toggleKeyboardSwitch = () => setKeyboardIsEnabled(previousState => !previousState);
@@ -16,6 +19,7 @@ console.log(extractedText);
 
   const handleSubmit = async () => {
     const formData = {
+      selected:selected,
         serialNumber: extractedText, // Use static text for testing
       cameraIsEnabled: cameraIsEnabled ? 'yes':'no',
       microphoneIsEnabled:microphoneIsEnabled? 'yes':'no',
@@ -23,7 +27,7 @@ console.log(extractedText);
       speakerIsEnabled:speakerIsEnabled? 'yes:':'no'
     };
 //https://script.google.com/macros/s/AKfycbxvXJ4dR9Bd5DnLl6VY0OZ1MskhzSO2GI3DWzzhdU8WkHvDv2IFbLLSvwvQMXCx-gI2nw/exec
-    var fetch_link = 'https://script.google.com/macros/s/AKfycbzfd9nOm8mbCOlCzCYRtI1YSX4TjYG9brzyVyTtabymBI1XBJObfEwARRZtH_9L_Mg7MA/exec';
+    var fetch_link = 'https://script.google.com/macros/s/AKfycbxGcNCelWJTzdY4PwGSe2ujY4sRQtGeRKY2Bp3wNhRgEmsWvREiDMKq6TVLawOLqtAuJw/exec';
     try {
       const response = await fetch(fetch_link, {
         method: 'POST',

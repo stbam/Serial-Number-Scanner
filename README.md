@@ -52,3 +52,5 @@ Join our community of developers creating universal apps.
 TO DO:
 The form needs to send data to google sheets and fill out the data on it
 It also should be able to use a database that you make and verify that the code scanned is in there/correct against existing database
+
+Also needs to retrieve data.
