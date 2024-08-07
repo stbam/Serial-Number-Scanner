@@ -22,7 +22,6 @@ import * as ImagePicker from "expo-image-picker";
 export default function App() {
 
     const [selected, setSelected] = React.useState("");
-
   
     // State to hold the selected image
     const [image, setImage] = useState(null); 
@@ -142,7 +141,6 @@ export default function App() {
         fetchPosts();
     }, []);*/}
 console.log('did it work?',serialNumberStore)
-console.log('this works?',selected)
 
     return (
     <PaperProvider>   
@@ -194,7 +192,7 @@ console.log('this works?',selected)
                         {extractedText}
                     </Text>
                     <StatusBar style="auto" />
-                    <Form extractedText={extractedText} selected={selected}/>
+                    <Form extractedText={extractedText} selected={selected} />
                 </View>
             </View>
 

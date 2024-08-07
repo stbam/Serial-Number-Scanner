@@ -4,7 +4,7 @@ import MyButtonComponent from './Button';
 import CustomSwitch from './Switch'
 
 
-const Form = ({extractedText,selected}) => {
+const Form = ({extractedText,data,selected}) => {
   
   const [cameraIsEnabled, setCameraIsEnabled] = useState(true);
   const [microphoneIsEnabled, setMicrophoneIsEnabled] = useState(true);
