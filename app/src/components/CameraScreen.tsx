@@ -159,17 +159,20 @@ console.log('this works?',selected)
 
 
             <View style={styles.buttonLayout}>
-                <View>
-                    <Button
-                        title="Pick an image from gallery"
-                        onPress={pickImageGallery}/>
-                </View>  
-                    
-                <Button
-                    title="Pick an image from camera"
-                    onPress={pickImageCamera}
-                />
-            </View>
+                <View style={styles.buttonDetails}>
+                        <MyButtonComponent
+                    title="Image from gallery"
+                    onPress={pickImageGallery}>
+                    </MyButtonComponent>
+                </View>    
+                    <View style={styles.buttonDetails}>
+                        <MyButtonComponent
+                    title="Image from camera"
+                    onPress={pickImageCamera}>
+                    </MyButtonComponent>  
+                    </View> 
+                </View>
+            
           
 
             {image && (
@@ -249,8 +252,11 @@ const styles = StyleSheet.create({
     abs:{
         //position:'absolute',
         zIndex:999,
-        top:200,
+       // top:200,
         width:150
+    },
+    buttonDetails:{
+        width:200,
     }
   
 });
