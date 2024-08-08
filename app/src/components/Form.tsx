@@ -2,15 +2,18 @@ import { Text, View, Switch, Button,StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import MyButtonComponent from './Button';
 import CustomSwitch from './Switch'
-
+import RadioComponent from './Radio'
 
 const Form = ({extractedText,selected}) => {
-  
+  const [checked, setChecked] = React.useState('Active');
+
+
   const [cameraIsEnabled, setCameraIsEnabled] = useState(true);
   const [microphoneIsEnabled, setMicrophoneIsEnabled] = useState(true);
   const [keyboardIsEnabled, setKeyboardIsEnabled] = useState(true);
   const [speakerIsEnabled, setSpeakerIsEnabled] = useState(true);
 console.log('this is in the forn',selected);
+  const toggleSetChecked =()=>setChecked(checked);
 
   const toggleCameraSwitch = () => setCameraIsEnabled(previousState => !previousState);
   const toggleMicrophoneSwitch = () => setMicrophoneIsEnabled(previousState => !previousState);
@@ -20,6 +23,8 @@ console.log('this is in the forn',selected);
   const handleSubmit = async () => {
     const formData = {
       selected:selected,
+      chromebook:'chromebook',
+      checked:checked,
         serialNumber: extractedText, // Use static text for testing
       cameraIsEnabled: cameraIsEnabled ? 'yes':'no',
       microphoneIsEnabled:microphoneIsEnabled? 'yes':'no',
@@ -27,7 +32,7 @@ console.log('this is in the forn',selected);
       speakerIsEnabled:speakerIsEnabled? 'yes:':'no'
     };
 //https://script.google.com/macros/s/AKfycbxvXJ4dR9Bd5DnLl6VY0OZ1MskhzSO2GI3DWzzhdU8WkHvDv2IFbLLSvwvQMXCx-gI2nw/exec
-    var fetch_link = 'https://script.google.com/macros/s/AKfycbxGcNCelWJTzdY4PwGSe2ujY4sRQtGeRKY2Bp3wNhRgEmsWvREiDMKq6TVLawOLqtAuJw/exec';
+    var fetch_link = 'https://script.google.com/macros/s/AKfycbwKJCVLrVssNk-t-ouy2JaLb-EYS96RhR4Vn7AghlGtod10XZXvvP2eETudeOx59EzW1g/exec';
     try {
       const response = await fetch(fetch_link, {
         method: 'POST',
@@ -51,9 +56,14 @@ console.log('this is in the forn',selected);
     console.log("Extracted Text in App:", extractedText);
 
   };
-
+console.log('in the form',checked)
+{/*setChecked={toggleSetChecked}*/}
   return (
     <View>
+      <RadioComponent
+      checked={checked}
+      setChecked={setChecked} 
+      ></RadioComponent>
 
       <Text>Camera is working? {cameraIsEnabled ? 'Yes' : 'No'}</Text>
       <Switch
@@ -76,6 +86,7 @@ console.log('this is in the forn',selected);
         value={speakerIsEnabled}
       />
       <Button title='Submit' onPress={handleSubmit} />
+      
     </View>
   );
 };
