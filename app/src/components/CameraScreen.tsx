@@ -186,16 +186,21 @@ console.log('this works?',selected)
             <View>
 
 
-                <View>
+                <View style={{display:'flex',flexDirection:'row'}}>
                     <Text style={styles.text1}>
                         Extracted text:
                     </Text>
+
                     <Text style={styles.text1}>
                         {extractedText}
                     </Text>
+                   
+                </View>
+                <View>
                     <StatusBar style="auto" />
                     <Form extractedText={extractedText} selected={selected}/>
                 </View>
+                
             </View>
 
         </SafeAreaView>
@@ -231,6 +236,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: "black",
         fontWeight: "bold",
+        paddingLeft:10
     },
     buttonLayout:{
         display:'flex',

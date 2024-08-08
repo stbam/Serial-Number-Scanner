@@ -65,31 +65,52 @@ console.log('in the form',checked)
       setChecked={setChecked} 
       ></RadioComponent>
 
-      <Text>Camera is working? {cameraIsEnabled ? 'Yes' : 'No'}</Text>
-      <Switch
-        onValueChange={toggleCameraSwitch}
-        value={cameraIsEnabled}
-      />
-      <Text>Microphone is working? {microphoneIsEnabled ? 'Yes' : 'No'}</Text>
-      <Switch
-        onValueChange={toggleMicrophoneSwitch}
-        value={microphoneIsEnabled}
-      />
-      <Text>Keyboard is working? {keyboardIsEnabled ? 'Yes' : 'No'}</Text>
-      <Switch
-        onValueChange={toggleKeyboardSwitch}
-        value={keyboardIsEnabled}
-      />
-      <Text>Speaker is working? {speakerIsEnabled ? 'Yes' : 'No'}</Text>
+    <View style={styles.switchTextStyle}>
+      <Text style={styles.textWidth}>Camera is working? {cameraIsEnabled ? 'Yes' : 'No'}</Text>
+            <Switch
+              onValueChange={toggleCameraSwitch}
+              value={cameraIsEnabled}
+            />
+    </View>
+
+      <View style={styles.switchTextStyle}>
+        <Text style={styles.textWidth} >Microphone is working? {microphoneIsEnabled ? 'Yes' : 'No'}</Text>
+        <Switch
+          onValueChange={toggleMicrophoneSwitch}
+          value={microphoneIsEnabled}
+        />
+      </View>
+    
+    <View style={styles.switchTextStyle}>
+      <Text style={styles.textWidth}>Keyboard is working? {keyboardIsEnabled ? 'Yes' : 'No'}</Text>
+        <Switch
+          onValueChange={toggleKeyboardSwitch}
+          value={keyboardIsEnabled}
+        />
+    </View>
+    
+    <View style={styles.switchTextStyle}>
+      <Text style={styles.textWidth}>Speaker is working? {speakerIsEnabled ? 'Yes' : 'No'}</Text>
       <Switch
         onValueChange={toggleSpeakerSwitch}
         value={speakerIsEnabled}
       />
+      </View>
+
       <Button title='Submit' onPress={handleSubmit} />
       
     </View>
   );
 };
+const styles= StyleSheet.create({
+  switchTextStyle:{
+    display:'flex',
+    flexDirection:'row',
+  },
+  textWidth:{
+    width:175 // Aligns the switches one on top of each other due to varying text length
+  }
 
+})
 
 export default Form;
